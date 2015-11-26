@@ -8,13 +8,15 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head
 		 content must come *after* these tags -->
 	<title>Ristorante Con Fusion: Menu</title>
-	<!-- Bootstrap -->
+
+	<!--build:css styles/main.css-->
 	<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
 	<link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="styles/bootstrap-social.css" rel="stylesheet">
 	<link href="styles/mystyles.css" rel="stylesheet">
 	<link href="styles/styles.css" rel="stylesheet">
+	<!--endbuild-->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,19 +29,37 @@
 <body>
 
 <div class="container">
-	<div class="row row-content" ng-controller="menuController as menuCtrl"  ng-cloak>
+	<div class="row row-content" ng-controller="menuController as menuCtrl" ng-cloak>
+		<div class="col-xs-12">
+
+		</div>
 		<div class="col-xs-12">
 			<!-- TAB NAVIGATION -->
 			<ul class="nav nav-tabs" role="tablist">
-
-				<li ng-class="{active: menuCtrl.isSelected({{$index}})}" ng-repeat="type in menuCtrl.types">
-					<a href="#tab{{$index + 1}}" role="tab" data-toggle="tab" ng-click="menuCtrl.select($index)">{{type|uppercase}}</a>
+				<li ng-class="{active: menuCtrl.isSelected($index+1)}" ng-repeat="tab in ['all','appetizer','mains','dessert', ]">
+					<a href="#tab{{$index}}" role="tab" data-toggle="tab" ng-click="menuCtrl.select($index+1)">{{tab|uppercase}}</a>
 				</li>
 			</ul>
+			<!--
+						<ul class="nav nav-tabs" role="tablist">
+							<li ng-class="{active: menuCtrl.isSelected(1)}">
+								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(1)">all</a>
+							</li>
+							<li ng-class="{active: menuCtrl.isSelected(2)}">
+								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(2)">mains</a>
+							</li>
+							<li ng-class="{active: menuCtrl.isSelected(3)}">
+								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(3)">mains</a>
+							</li>
+							<li ng-class="{active: menuCtrl.isSelected(4)}">
+								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(4)">dessert</a>
+							</li>
+						</ul>
+			-->
 			<!-- TAB CONTENT -->
 			<div class="tab-content">
 				<ul class="media-list">
-					<li class="media" ng-repeat="dish in menuCtrl.dishes | filter:menuCtrl.typesFilter">
+					<li class="media" ng-repeat="dish in menuCtrl.dishes | filter:menuCtrl.filtText">
 						<div class="media-left media-middle">
 							<a href="#">
 								<img class="media-object img-thumbnail"
@@ -63,11 +83,12 @@
 	</div>
 </div>
 
-
+<!--build:js scripts/main.js-->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js "></script>
 <script src="../bower_components/angular/angular.min.js"></script>
 <script src="scripts/app.js"></script>
+<!--endbuild-->
 </body>
 
 </html>

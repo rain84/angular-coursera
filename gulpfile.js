@@ -16,21 +16,21 @@ var
 
 var path = {
 	watch : { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
-		html  : 'app/*.html',
-		js    : 'app/scripts/**/*.js',
-		style : 'app/styles/*.sass',
-		img   : 'app/img/**/*.*',
-		fonts : 'app/fonts/**/*.*'
+		html   : 'app/*.html',
+		js     : 'app/scripts/**/*.js',
+		styles : 'app/styles/*.sass',
+		img    : 'app/img/**/*.*',
+		fonts  : 'app/fonts/**/*.*'
 	},
 	src   : {
-		html  : 'app/*.html',
-		js    : 'app/js/**/*.js',
-		style : 'app/styles/*.sass',
+		html   : 'app/*.html',
+		js     : 'app/js/**/*.js',
+		styles : 'app/styles/*.sass',
 	},
 	dst   : {
-		html  : 'app/',
-		js    : 'app/js/',
-		style : 'app/styles',
+		html   : 'app/',
+		js     : 'app/js/',
+		styles : 'app/styles',
 	},
 };
 
@@ -41,25 +41,38 @@ var config = {
 	host      : 'localhost',
 	port      : 8010,
 	logPrefix : "Rain Summers",
+	canReload : false,
 };
 
 
-gulp.task( 'watch', watch );
+gulp
+	.task( 'watch', ['build'], watch )
+	.task( 'build', ['build:html', 'build:js', 'build:styles',], function () {
+		//browserSync.reload();
+		config.canReload = true;
+	} )
+	.task( 'build:html', function () {
+		config.canReload && browserSync.reload();
+	} )
+	.task( 'build:js', function () {
+		config.canReload && browserSync.reload();
+	} )
+	.task( 'build:styles', function () {
+		gulp.src( path.src.styles )
+			.pipe( sass() )
+			.pipe( gulp.dest( path.dst.styles ) )
+			.pipe( callback( function () {
+				config.canReload && browserSync.reload();
+			} ) )
+		;
+	} )
+;
 
 
 function watch() {
 	browserSync( config );
 
-	gulp.watch( path.watch.html, browserSync.reload );
-	gulp.watch( path.watch.js, browserSync.reload );
-
-	gulp.watch( path.watch.style, function () {
-		gulp.src( path.src.style )
-			.pipe( sass() )
-			.pipe( gulp.dest( path.dst.style ) )
-			.pipe( callback( function () {
-				browserSync.reload( );
-			} ) )
-		;
-	} );
+	gulp.watch( path.watch.html, ['build:html'] );
+	gulp.watch( path.watch.js, ['build:js'] );
+	gulp.watch( path.watch.styles, ['build:styles'] );
 }
