@@ -17,14 +17,14 @@ var
 var path = {
 	watch : { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
 		html  : 'app/*.html',
-		js    : 'app/scripts/*js',
+		js    : 'app/scripts/**/*.js',
 		style : 'app/styles/*.sass',
 		img   : 'app/img/**/*.*',
 		fonts : 'app/fonts/**/*.*'
 	},
 	src   : {
 		html  : 'app/*.html',
-		js    : 'app/js/*.js',
+		js    : 'app/js/**/*.js',
 		style : 'app/styles/*.sass',
 	},
 	dst   : {
