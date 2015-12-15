@@ -1,67 +1,21 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="confusionApp">
-
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head
-		 content must come *after* these tags -->
-	<title>Ristorante Con Fusion: Menu</title>
-
-	<!--build:css styles/main.css-->
-	<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-	<link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	<link href="styles/bootstrap-social.css" rel="stylesheet">
-	<link href="styles/mystyles.css" rel="stylesheet">
-	<link href="styles/styles.css" rel="stylesheet">
-	<!--endbuild-->
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
-</head>
-
-<body>
-
 <div class="container">
-	<div class="row row-content" ng-controller="menuController as menuCtrl" ng-cloak>
+	<div class="row row-content" ng-controller="MenuController" ng-cloak>
 		<div class="col-xs-12">
+			<button ng-click="toggleDetails()" type="button" class="btn btn-xs btn-primary pull-right">{{showDetails ? 'Hide Details' : 'Show Details'}}</button>
 
-		</div>
-		<div class="col-xs-12">
 			<!-- TAB NAVIGATION -->
 			<ul class="nav nav-tabs" role="tablist">
-				<li ng-class="{active: menuCtrl.isSelected($index+1)}" ng-repeat="tab in ['all','appetizer','mains','dessert', ]">
-					<a href="#tab{{$index}}" role="tab" data-toggle="tab" ng-click="menuCtrl.select($index+1)">{{tab|uppercase}}</a>
+				<li ng-class="{active: isSelected($index+1)}" ng-repeat="tab in ['The menu','appetizer','mains','dessert', ]">
+					<a href="#tab{{$index}}" role="tab" data-toggle="tab" ng-click="select($index+1)">{{tab|uppercase}}</a>
 				</li>
 			</ul>
-			<!--
-						<ul class="nav nav-tabs" role="tablist">
-							<li ng-class="{active: menuCtrl.isSelected(1)}">
-								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(1)">all</a>
-							</li>
-							<li ng-class="{active: menuCtrl.isSelected(2)}">
-								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(2)">mains</a>
-							</li>
-							<li ng-class="{active: menuCtrl.isSelected(3)}">
-								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(3)">mains</a>
-							</li>
-							<li ng-class="{active: menuCtrl.isSelected(4)}">
-								<a href="#tab1" role="tab" data-toggle="tab" ng-click="menuCtrl.select(4)">dessert</a>
-							</li>
-						</ul>
-			-->
+
 			<!-- TAB CONTENT -->
-			<div class="tab-content">
+			<div class="tab-content menu__tab-content">
 				<ul class="media-list">
-					<li class="media" ng-repeat="dish in menuCtrl.dishes | filter:menuCtrl.filtText">
+					<li class="media" ng-repeat="dish in dishes | filter:filtText">
 						<div class="media-left media-middle">
-							<a href="#">
+							<a ng-href="#/menu/{{dish._id}}">
 								<img class="media-object img-thumbnail"
 								     ng-src={{dish.image}} alt="Uthappizza">
 							</a>
@@ -72,7 +26,7 @@
 								<span class="badge">{{dish.price | currency}}</span></h2>
 							<span class="badge">15000</span></h2>
 
-							<p>{{dish.description}}</p>
+							<p ng-show="showDetails">{{dish.description}}</p>
 						</div>
 
 					</li>
@@ -82,13 +36,3 @@
 		</div>
 	</div>
 </div>
-
-<!--build:js scripts/main.js-->
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js "></script>
-<script src="../bower_components/angular/angular.min.js"></script>
-<script src="scripts/app.js"></script>
-<!--endbuild-->
-</body>
-
-</html>
