@@ -38,27 +38,31 @@ var gulp            = require( 'gulp' ),
 var path     = {
 	    watch : {
 		    dir  : 'app',
-		    html : 'app/*.html',
+		    html : 'app/*/*.html',
 		    js   : 'app/scripts/**/*.js',
 		    css  : 'app/styles/*.css',
 		    sass : 'app/styles/*.+(sass|scss)',
 	    },
 	    src   : {
-		    index  : 'app/menu.html',
-		    html  : 'app/*.html',
-		    js    : 'app/scripts/app.js',
-		    images : 'app/images/**/*.+(jpeg|jpg|png)',
-		    fonts  : [
-			    '/bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}*',
-			    '/bower_components/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*'
+		    index    : 'app/index.html',
+		    views    : 'app/views/*.html',
+		    partials : 'app/partials/*.html',
+		    styles   : 'app/styles',
+		    js       : 'app/scripts/app.js',
+		    images   : 'app/images/**/*.+(jpeg|jpg|png)',
+		    fonts    : [
+			    'bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}*',
+			    'bower_components/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*'
 		    ],
 	    },
 	    build : {
 		    dir      : 'dist',
-		    html : 'dist/*.html',
-		    js   : 'dist/js',
-		    sass : 'mystyles',
-		    styles : 'app/styles',
+		    views    : 'dist/views',
+		    partials : 'dist/partials',
+		    styles   : 'dist/styles',
+		    index    : 'dist/index.html',
+		    js       : 'dist/js',
+		    sass     : 'mystyles',
 		    images   : 'dist/images',
 		    fonts    : 'dist/fonts',
 	    },
@@ -68,21 +72,21 @@ var path     = {
 	    build     : {
 		    server    : {
 			    baseDir : path.build.dir,
-			    index   : 'menu.html'
+			    index   : 'index.html'
 		    },
-		    tunnel : true,
-		    host   : 'localhost',
-		    port   : 8010,
+		    tunnel    : true,
+		    host      : 'localhost',
+		    port      : 8011,
 		    logPrefix : "Rain Summers",
 	    },
-	    watch : {
+	    watch     : {
 		    server    : {
 			    baseDir : '',
 			    index   : ''
 		    },
-		    tunnel : false,
-		    host   : 'localhost',
-		    port   : 8010,
+		    tunnel    : false,
+		    host      : 'localhost',
+		    port      : 8010,
 		    logPrefix : "Rain Summers",
 	    },
 	    canReload : false
@@ -94,14 +98,14 @@ gulp
 	.task( 'build', function () {
 		async( [
 			       taskClear,
+			       taskCopy,
 			       //taskRiggerHTML,
 			       taskRiggerJS,
-			       taskJsHint,
+			       //taskJsHint,
 			       taskSass,
 			       taskUsemin,
-			       taskUncss,
+			       //taskUncss,     ????
 			       taskImagemin,
-			       taskCopyFonts,
 		       ] )
 			.then( function () {
 				browserSync.init( bsConfig.build );
@@ -109,14 +113,13 @@ gulp
 			} )
 		;
 	} )
-
 	.task( 'watch', function () {
 		async( [
 			       //taskRiggerHTML,
-			       taskRiggerJS,
-			       taskJsHint,
+			       //taskRiggerJS,
+			       //taskJsHint,
 			       taskSass,
-			       taskCopyFonts,
+			       //taskCopyFonts,
 		       ] )
 			.then( function () {
 
@@ -136,6 +139,8 @@ gulp
 function watchHandler( action ) { async( taskRiggerHTML ).async( action ); }
 
 function taskJsHint( defer ) {
+	console.log( 'taskJsHint' );
+
 	return gulp.src( path.watch.js )
 		.pipe( plumberNotifier() )
 		.pipe( changed( path.watch.js ) )
@@ -149,18 +154,21 @@ function taskJsHint( defer ) {
 }
 
 function taskRiggerJS( defer ) {
-	del( path.watch.dir + '/app.js' );
+	console.log( 'taskRiggerJS' );
 
 	return gulp.src( path.src.js )
 		.pipe( rigger() )
 		.pipe( gulp.dest( path.watch.dir ) )
 		.pipe( callback( function () {
+			del( path.watch.dir + '/app.js' );
 			resolve( defer );
 		} ) )
 		;
 }
 
 function taskRiggerHTML( defer ) {
+	console.log( 'taskRiggerHTML' );
+
 	return gulp.src( path.watch.html )
 		.pipe( rigger() )
 		.pipe( gulp.dest( path.watch.dir ) )
@@ -171,22 +179,25 @@ function taskRiggerHTML( defer ) {
 
 function taskSass( defer ) {
 	console.log( 'taskSass' );
+
 	gulp.src( path.watch.sass )
 		.pipe( plumberNotifier() )
 
 		.pipe( sass() )
 		.pipe( autoprefixer( { browsers : browserslist( '> 5%, last 2 version' ) } ) )
 		//.pipe( concat( config.sassOutput ) )
-		.pipe( rename( function ( filePath ) {
-			filePath.basename = path.build.sass;
-		} ) )
+		/*
+		 .pipe( rename( function ( filePath ) {
+		 filePath.basename = path.build.sass;
+		 } ) )
+		 */
 
 		//.pipe( sourcemaps.init() )
 		//.pipe( uncss( { 'html' : [path.html] } ) )
 		//.pipe( cssmin() )
 		//.pipe( sourcemaps.write() )
 
-		.pipe( gulp.dest( path.build.styles ) )
+		.pipe( gulp.dest( path.src.styles ) )
 
 		.pipe( callback( function () {
 			browserReload();
@@ -196,25 +207,33 @@ function taskSass( defer ) {
 }
 
 function taskUncss( defer ) {
+	console.log( 'taskUncss' );
+
 	return gulp.src( path.build.styles + '/*.css' )
-		.pipe( uncss( { html : [path.build.html] } ) )
+		.pipe( uncss( { html : [path.build.index, path.build.views + '/*/*.html'] } ) )
 		.pipe( gulp.dest( path.build.styles ) )
-		. pipe( callback( function () { resolve( defer ); } ) )
+		.pipe( callback( function () { resolve( defer ); } ) )
 		;
 }
 
 function taskUsemin( defer ) {
-	return gulp.src( path.watch.html )
-		.pipe( usemin( {
-			               html : [minifyHtml],
-			               css  : [minifycss, rev],
-			               js   : [ngAnnotate, uglify, rev],
-		               } ) )
-		.pipe( gulp.dest( path.build.dir ) )
-		.pipe( callback( function () { resolve( defer ); } ) );
+	setTimeout( function () {
+		console.log( 'taskUsemin' );
+
+		gulp.src( path.src.index )
+			.pipe( usemin( {
+				               html : [minifyHtml],
+				               css  : [minifycss, rev],
+				               js   : [ngAnnotate, uglify, rev],
+			               } ) )
+			.pipe( gulp.dest( path.build.dir ) )
+			.pipe( callback( function () { resolve( defer ); } ) );
+	}, 500 );
 }
 
 function taskImagemin( defer ) {
+	console.log( 'taskImagemin' );
+
 	return gulp.src( path.src.images )
 		.pipe( imagemin( { optimizationLevel : 3, progressive : true, interlaced : true } ) )
 		.pipe( gulp.dest( path.build.images ) )
@@ -224,17 +243,47 @@ function taskImagemin( defer ) {
 		;
 }
 
-function taskCopyFonts( defer ) {
+function taskCopy( defer ) {
+	console.log( 'taskCopy' );
+
+	taskCopyViews();
+	taskCopyFonts();
+	taskCopyPartials();
+
+	defer.resolve();
+}
+
+function taskCopyFonts() {
+	console.log( 'taskCopyFonts' );
+
 	_.each( path.src.fonts, function ( src ) {
 		gulp.src( src )
 			.pipe( gulp.dest( path.build.fonts ) );
 	} );
-	resolve( defer );
+}
+
+function taskCopyViews() {
+	console.log( 'taskCopyViews' );
+
+	gulp.src( path.src.views )
+		//.pipe( usemin( { html : [minifyHtml] } ) )
+		.pipe( gulp.dest( path.build.views ) )
+	;
+}
+
+function taskCopyPartials() {
+	console.log( 'taskCopyPartials' );
+
+	gulp.src( path.src.partials )
+		.pipe( gulp.dest( path.build.partials ) )
+	;
 }
 
 function taskClear( defer ) {
+	console.log( 'taskClear' );
+
 	del( path.build.dir );
-	resolve( defer );
+	setTimeout( defer.resolve, 500 );
 }
 
 function resolve( defer ) {
@@ -242,5 +291,8 @@ function resolve( defer ) {
 }
 
 function browserReload() {
-	bsConfig.canReload && browserSync.reload();
+	if ( bsConfig.canReload ) {
+		console.log( 'browserReload' );
+		browserSync.reload();
+	}
 }

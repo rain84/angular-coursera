@@ -1,0 +1,234 @@
+@import "awesome.sass"
+
+.nav-tabs > li.active > a
+    background-color : greenyellow !important
+
+$color-text__main : floralwhite
+$color-bg__active : #1A237E
+
+.row-header
+    margin : 0px auto
+    padding : 0px auto
+
+.row-content
+    margin : 0px auto
+    padding : 50px 0px 50px 0px
+    border-bottom : 1px ridge
+
+.footer
+    background-color : #AfAfAf
+    margin : 0px auto
+    padding : 20px 0px 20px 0px
+
+.jumbotron
+    padding : 70px 30px 70px 30px
+    margin : 0px auto
+    background : #7986CB
+    color : $color-text__main
+
+    .jumbotron__logo
+        animation : jumbotron__logo_animation 1.0s linear infinite
+
+    &__reserve-table-btn
+        margin-top : 40px
+
+@keyframes jumbotron__logo_animation
+    0%
+        filter : hue-rotate(0deg)
+    100%
+        filter : hue-rotate(360deg)
+
+address
+    font-size : 80%
+    margin : 0px
+    color : #0f0f0f
+
+body
+    padding : 50px 0px 0px 0px
+    z-index : 0
+
+.navbar-inverse
+    background : rgba(48, 63, 159, 0.85)
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus
+    color : #fff
+    background : $color-bg__active
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus
+    color : #fff
+    background : $color-bg__active
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a,
+.navbar-inverse .navbar-nav .open .dropdown-menu
+    background-color : #303F9F
+    color : #eeeeee
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover
+    color : #000000
+
+.button-feedback
+    margin-left : -10px
+
+.table-responsive
+    border : none
+
+.table-hover > tbody > tr
+    background-color : transparent
+    transition : background-color 0.5s
+
+.navbar
+    &-header
+        &__logo
+            height : 100%
+
+    &__button
+        &:focus,
+        &:hover
+            background-color : $color-bg__active !important
+
+        &-icon
+            color : $color-text__main
+
+    &__log-in
+//margin : 8px 0
+//color : $color-text__main!important
+
+//.navbar-form
+//    margin : 8px 0
+//
+//    &__remember-me
+//        color : $color-text__main
+
+.leadership__tab-content
+    border :
+        bottom : 1px solid #ddd
+        left : 1px solid #ddd
+        right : 1px solid #ddd
+    padding : 10px
+
+#myScrollSpy
+    .nav
+        $time : 0.5s
+        transform : rotate(0deg)
+        opacity : 0
+        top : 0px
+        transition : opacity $time, top $time cubic-bezier(.1, -1.5, .1, 2.5), transform $time
+
+        &.affix
+            top : 70px
+            opacity : 1
+            transform : rotate(720deg)
+
+.container-main
+    margin-top : 20px
+
+.popover
+    color : initial
+
+.modal-login
+    &__btn-holder
+        float : right
+
+    &__input
+        width : 120px !important
+
+    &__btn
+        margin : 0 5px
+        &:first-child
+            margin-left : 0
+        &:last-child
+            margin-right : 0
+
+.carousel
+    background : #1A237E
+
+.carousel .item
+    height : 300px
+
+.item img
+    position : absolute
+    top : 0
+    left : 0
+    min-height : 300px
+
+//.carousel
+//    background : #1A237E
+//
+//    .item
+//        height : 400px
+//
+//        img
+//            width : 100%
+//            height : 100%
+//
+//    &-control.left,
+//    &-control.right
+//        background-image : none
+//
+//    transition : transform 0.2s
+//
+//    &:hover
+//        $koeff : 1.1
+//        //transform : scale($koeff) translateX(-100% / $koeff)
+//        transform : scale($koeff)
+
+
+.carousel-controls
+    position : absolute
+    right : 0
+    bottom : 0
+
+#form-filters
+    width : 70%
+    display : inline
+
+.menu
+    &__tab-content
+        padding : 1em
+        border : 1px solid #ddd
+        border-top : 0
+
+.repeater
+    background : gray
+    margin : 0.5em auto
+    text-align : center
+    color : red
+    font-weight : bold
+    width : 50%
+    height : 50px
+    $type : scale
+
+    &.ng-enter
+        @extend .#{$type}-in
+    &.ng-leave
+        @extend .#{$type}-out
+
+
+.block
+    width : 50%
+    margin : 0 auto
+    height : 200px
+    background-color : hotpink
+    position : relative
+
+    @extend .spiral
+
+    &.ng-hide
+        @extend .turn-out-x
+
+
+
+
+    &-content
+        $line-height : 20px
+        $font-weight : 14px
+
+        text-align : center
+        width : 100%
+        position : absolute
+        top : calc(50% - #{$line-height} / 2)
+

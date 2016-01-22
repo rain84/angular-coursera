@@ -1,72 +1,73 @@
-/**
- * Created by Rain Summers on 25.11.2015.
- *
- * You can ask me on 'into.the.rainy.sky@gmail.com'
- * if you have any questions about this code.
- *
- */
+(function () {
+	'use strict';
 
-angular.module('confusionApp', [])
+	angular.module( 'confusionApp', ['ui.router', 'ngResource', 'underscore', 'ngCookies', 'ngAnimate'] )
 
-		.controller('menuController', function() {
-			this.tab = 1;
-			this.filtText = '';
-			var dishes=[
-				{
-					name:'Uthapizza',
-					image: 'images/uthapizza.png',
-					category: 'mains',
-					label:'Hot',
-					price:'4.99',
-					description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
-					comment: ''
-				},
-				{
-					name:'Zucchipakoda',
-					image: 'images/zucchipakoda.png',
-					category: 'appetizer',
-					label:'',
-					price:'1.99',
-					description:'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce',
-					comment: ''
-				},
-				{
-					name:'Vadonut',
-					image: 'images/vadonut.png',
-					category: 'appetizer',
-					label:'New',
-					price:'1.99',
-					description:'A quintessential ConFusion experience, is it a vada or is it a donut?',
-					comment: ''
-				},
-				{
-					name:'ElaiCheese Cake',
-					image: 'images/elaicheesecake.png',
-					category: 'dessert',
-					label:'',
-					price:'2.99',
-					description:'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms',
-					comment: ''
-				}
-			];
-			this.dishes = dishes;
+		.config( function ( $stateProvider, $urlRouterProvider ) {
 
-			this.select = function(setTab) {
-				this.tab = setTab;
-				if (setTab === 2) {
-					this.filtText = "appetizer";
-				}
-				else if (setTab === 3) {
-					this.filtText = "mains";
-				}
-				else if (setTab === 4) {
-					this.filtText = "dessert";
-				}
-				else {
-					this.filtText = "";
-				}
-			};
-			this.isSelected = function (checkTab) {
-				return (this.tab === checkTab);
-			};
-		});
+			$stateProvider
+
+				.state( 'app', {
+					alias : 'Home',
+					url   : '/',
+					views : {
+						header  : { templateUrl : 'views/header.html' },
+						content : { templateUrl : 'views/home.html', },
+						footer  : { templateUrl : 'views/footer.html' },
+					},
+				} )
+
+				.state( 'app.about-us', {
+					alias : 'About Us',
+					url   : 'about-us',
+					views : {
+						'content@' : { templateUrl : 'views/about-us.html' },
+					}
+				} )
+
+				.state( 'app.contact-us', {
+					alias : 'Contact us',
+					url   : 'contact-us',
+					views : {
+						'content@' : { templateUrl : 'views/contact-us.html' },
+					}
+				} )
+
+				.state( 'app.menu', {
+					alias : 'Menu',
+					url   : 'menu',
+					views : {
+						'content@' : { templateUrl : 'views/menu.html', },
+					}
+				} )
+
+				.state( 'app.menu.dish-details', {
+					alias : 'Dish details',
+					url   : '/:id',
+					views : {
+						'content@' : { templateUrl : 'views/dish-details.html', },
+					}
+				} )
+			;
+
+			$urlRouterProvider.otherwise( '/' );
+		} )
+
+		.run( function ( $rootScope, $timeout ) {
+
+			(function breadcrumbInit() {
+				var off = $rootScope
+					.$on( '$stateChangeSuccess', function () {
+						var args = [].slice.call( arguments );
+						args.shift();
+						args.unshift( '$stateChangeSuccess' );
+
+						off();
+						$timeout( function () {
+							$rootScope.$broadcast.apply( $rootScope, args );
+						}, 0 );
+					} );
+			})();
+		} )
+	;
+}());

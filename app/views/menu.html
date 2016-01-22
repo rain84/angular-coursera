@@ -1,0 +1,42 @@
+<div class="container">
+	<div class="row row-content" ng-controller="MenuController as vm" ng-cloak>
+		<div class="col-xs-12" ng-if="!vm.showMenu">
+			<h3>{{vm.message}}</h3>
+		</div>
+
+		<div class="col-xs-12" ng-if="vm.showMenu">
+			<button ng-click="vm.toggleDetails()" type="button" class="btn btn-xs btn-primary pull-right">{{vm.showDetails ? 'Hide Details' : 'Show Details'}}</button>
+
+			<!-- TAB NAVIGATION -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li ng-class="{active: vm.isSelected($index)}" ng-repeat="tab in vm.tabs">
+					<a href="" role="tab" data-toggle="tab" ng-click="vm.select($index)">{{tab|uppercase}}</a>
+				</li>
+			</ul>
+
+			<!-- TAB CONTENT -->
+			<div class="tab-content menu__tab-content">
+				<ul class="media-list">
+					<li class="media" ng-repeat="dish in vm.dishes | filter:vm.filterText">
+						<div class="media-left media-middle">
+							<a ui-sref="app.menu.dish-details({id : dish.id})">
+								<img class="media-object img-thumbnail"
+								     ng-src={{dish.image}} alt="{{dish.name}}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h2 class="media-heading">{{dish.name}}
+								<span class="label label-danger">{{dish.label}}</span>
+								<span class="badge">{{dish.price | currency}}</span></h2>
+							<span class="badge">15000</span></h2>
+
+							<p ng-show="vm.showDetails">{{dish.description}}</p>
+						</div>
+
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>

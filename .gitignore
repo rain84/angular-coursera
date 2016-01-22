@@ -1,3 +1,10 @@
+/coverage
+/node_modules
+/bower_components
+/gruntfile.js
+/app/backup-week-4
+/app/backup-week-3
+/app/backup-week-2
 logs/*
 !.gitkeep
 node_modules/
