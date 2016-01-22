@@ -1,0 +1,122 @@
+<div class="container">
+	<div class="row row-content" ng-controller="DishDetailController as vmDetail">
+
+		<div class="col-xs-12" ng-if="!vmDetail.isLoaded">
+			<h3>{{vmDetail.message}}</h3>
+		</div>
+
+		<div ng-if="vmDetail.isLoaded">
+			<div class="col-xs-12">
+				<div class="media">
+					<!--dish details-->
+					<div class="media-left media-middle">
+						<img class="media-object img-thumbnail" ng-src={{vmDetail.dish.image}} alt="Uthappizza">
+					</div>
+
+					<div class="media-body">
+						<h2 class="media-heading">{{vmDetail.dish.name}}
+							<span class="label label-danger">{{vmDetail.dish.label}}</span>
+							<span class="badge">{{vmDetail.dish.price | currency}}</span>
+						</h2>
+						<h4>Category : {{vmDetail.dish.category | uppercase}}</h4>
+						<p><input type="number" class="text-center" ng-model="vmDetail.dish.price"/></p>
+						<p>{{vmDetail.dish.description}}</p>
+					</div>
+				</div>
+			</div><!--    / dish details    -->
+
+			<div class="col-xs-9 col-xs-offset-1">
+				<p>&nbsp;</p>
+
+				<div class="row">
+					<div class="col-xs-4">
+						<h3>Customer comments <span id="counter" class="pull-right">({{vmDetail.dish.comments.length}})</span></h3>
+					</div>
+					<div class="col-xs-4">
+						<h3 class="text-right">
+							<small>Sort by:</small>
+							<input type="text" id="form-filters" list="filters"
+							       class="form-control input-sm" ng-model="filterType"/>
+
+							<datalist id="filters">
+								<option value="rating">
+								<option value="-rating">
+								<option value="comment">
+								<option value="-comment">
+								<option value="author">
+								<option value="-author">
+								<option value="date">
+								<option value="-date">
+							</datalist>
+
+						</h3>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<blockquote ng-repeat="comment in vmDetail.dish.comments | orderBy:filterType">
+							<p>{{comment.rating}} Stars</p>
+
+							<p>{{comment.comment}}</p>
+
+							<footer>{{comment.author}}, {{comment.date|date}}</footer>
+						</blockquote>
+					</div>
+				</div>
+
+
+			</div><!--  /dish comments -->
+
+			<div class="col-xs-9 col-xs-offset-1" ng-controller="DishCommentController as vmComment">
+				<ul class="list-unstyled">
+					<li>
+						<blockquote class="comment-preview"
+						            ng-show="form.$valid && !form.$pristine"
+						            ng-class="{'comment-preview_show': form.$valid && !form.$pristine}">
+							<p>{{vmComment.preview.rating}} Stars</p>
+
+							<p>{{vmComment.preview.comment}}</p>
+
+							<footer>{{vmComment.preview.author}}</footer>
+						</blockquote>
+					</li>
+				</ul>
+				<form class="form-horizontal" ng-class="{'has-success' : form.$valid}" name="form" ng-submit="vmComment.submitComment()" novalidate="">
+					<div class="form-group" ng-class="{'has-error' : vmComment.isBadInput(form.author)}">
+						<label for="visitor-name" class="col-xs-2 control-label">Your name</label>
+
+						<div class="col-xs-10">
+							<input type="text" class="form-control" id="visitor-name" name="author"
+							       ng-model="vmComment.preview.author"
+							       placeholder="Enter your name" required="">
+							<span ng-show="vmComment.isBadInput(form.author)" class="help-block">Your name is required.</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">Numbers of stars</label>
+
+						<div class="col-xs-10">
+							<label class="radio-inline" ng-repeat="index in [1,2,3,4,5]">
+								<input type="radio" name="rating" value="{{index}}" ng-model="vmComment.preview.rating"> {{index}}
+							</label>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error' : vmComment.isBadInput(form.comment)}">
+						<label class="col-xs-2 control-label">Your comments</label>
+
+						<div class="col-xs-10">
+							<textarea name="comment" cols="30" rows="10" class="form-control" ng-model="vmComment.preview.comment" required></textarea>
+							<span ng-show="vmComment.isBadInput(form.comment)" class="help-block">Comment is required.</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-10 col-xs-offset-2">
+							<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit comment</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

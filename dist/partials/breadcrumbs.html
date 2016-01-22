@@ -1,0 +1,6 @@
+<ul class="breadcrumb">
+	<li ng-repeat="page in vm.breadCrumbs" ng-if="!page.isActive">
+		<a ui-sref="{{page.state}}">{{page.name}}</a>
+	</li>
+	<li ng-repeat="page in vm.breadCrumbs" class="active" ng-if="page.isActive">{{page.name}}</li>
+</ul>

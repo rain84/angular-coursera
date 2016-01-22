@@ -1,0 +1,91 @@
+<div class="container" ng-controller="HomeController as vm">
+
+	<div class="row row-content">
+		<div class="col-xs-12" ng-if="!vm.isLoaded.dish">
+			<h3 class="text-center">{{vm.message.dish}}</h3>
+		</div>
+
+		<div ng-if="vm.isLoaded.dish">
+			<div class="col-xs-12 col-sm-3 col-sm-push-9">
+				<h3 align="center">Our Lipsmacking Culinary Creations</h3>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-sm-pull-3">
+				<div class="media">
+					<div class="media-left media-middle">
+						<a ui-sref="app.menu.dish-details({id: vm.dish.id})"><img ng-src="{{vm.dish.image}}" class="img-thumbnail media-object media-object_full" alt="{{vm.dish.name}}"></a>
+					</div>
+
+					<div class="media-body">
+						<h2 class="media-heading">
+							{{vm.dish.name}}
+							<label class="label label-danger">{{vm.dish.label}}</label>
+							<span class="badge">{{vm.dish.price|currency}}</span>
+						</h2>
+
+						<p>{{vm.dish.description}}</p>
+
+						<p><a class="brn btn-primary btn-xs" ui-sref="app.menu.dish-details({id: vm.dish.id})">More »</a></p>
+					</div>
+				</div><!--  /Implement the Featured Dish Here   -->
+			</div>
+		</div>
+	</div>
+
+	<div class="row row-content">
+		<div class="col-xs-12" ng-if="!vm.isLoaded.promotion">
+			<h3 class="text-center">{{vm.message.promotion}}</h3>
+		</div>
+
+
+		<div ng-if="vm.isLoaded.promotion">
+			<div class="col-xs-12 col-sm-3">
+				<h3 align="center">This Month's Promotions</h3>
+			</div>
+			<div class="col-xs-12 col-sm-9">
+				<div class="media">
+					<div class="media-body">
+						<h2 class="media-heading">
+							{{vm.promotion.name}}
+							<label class="label label-danger">{{vm.promotion.label}}</label>
+							<span class="badge">{{vm.promotion.price|currency}}</span>
+						</h2>
+
+						<p>{{vm.promotion.description}}</p>
+					</div>
+					<div class="media-left media-middle">
+						<a href="#"><img ng-src="{{vm.promotion.image}}" class="img-thumbnail media-object media-object_full" alt="{{vm.promotion.name}}"></a>
+					</div>
+				</div><!--  /Implement the Promotion Here   -->
+			</div>
+		</div>
+	</div>
+
+	<div class="row row-content">
+		<div class="col-xs-12" ng-if="!vm.isLoaded.leader">
+			<h3 class="text-center">{{vm.message.leader}}</h3>
+		</div>
+
+		<div ng-if="vm.isLoaded.leader">
+			<div class="col-xs-12 col-sm-3 col-sm-push-9">
+				<h3 align="center">Meet our Culinary Specialists</h3>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-sm-pull-3">
+				<div class="media">
+					<div class="media-left media-middle">
+						<a href="#"><img ng-src="{{vm.leader.image}}" class="img-thumbnail media-object media-object_full" alt="{{vm.leader.name}}"></a>
+					</div>
+
+					<div class="media-body">
+						<h2 class="media-heading">
+							{{vm.leader.name}}
+							<small>{{vm.leader.designation}}</small>
+						</h2>
+
+						<p>{{vm.leader.description}}</p>
+					</div>
+				</div><!--  /Implement the Executive Chef Info Here -->
+			</div>
+		</div>
+	</div>
+
+</div>
