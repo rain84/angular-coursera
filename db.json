@@ -212,6 +212,12 @@
           "author": "author",
           "comment": "comment",
           "date": "2016-01-22T08:12:26.570Z"
+        },
+        {
+          "rating": 5,
+          "author": "author",
+          "comment": "comment",
+          "date": "2016-01-22T11:34:36.862Z"
         }
       ]
     },
@@ -636,6 +642,19 @@
         "number": "222"
       },
       "id": 19
+    },
+    {
+      "myChannel": "Tel.",
+      "firstName": "firstName",
+      "lastName": "lastName",
+      "agree": true,
+      "email": "email@gmail.com",
+      "comment": "comment",
+      "tel": {
+        "areaCode": "111",
+        "number": "222"
+      },
+      "id": 20
     }
   ]
 }
