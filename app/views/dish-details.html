@@ -36,30 +36,12 @@
 						<h3 class="text-right">
 							<small>Sort by:</small>
 							<button type="button" class="btn btn-default btn-xs btn-sort"
-							        data-toggle="tooltip" data-placement="top" title="Rating"
-							        ng-click="vmDetail.sortBtn.onClick(0)"
-							        ng-class="{active : vmDetail.sortBtn.isActive(0)}">
-								R <i class="glyphicon glyphicon-sort"></i>
+							        data-toggle="tooltip" data-placement="top" title="{{name.full}}"
+							        ng-click="vmDetail.sortBtn.onClick($index)"
+							        ng-class="{'btn-danger' : vmDetail.sortBtn.isActive($index)}"
+							        ng-repeat="name in vmDetail.sortBtn.names">
+								{{name.short}} <i class="glyphicon glyphicon-sort"></i>
 							</button>
-							<button type="button" class="btn btn-default btn-xs btn-sort"
-							        data-toggle="tooltip" data-placement="top" title="Comment"
-							        ng-click="vmDetail.sortBtn.onClick(1)"
-							        ng-class="{active : vmDetail.sortBtn.isActive(1)}">
-								C <i class="glyphicon glyphicon-sort"></i>
-							</button>
-							<button type="button" class="btn btn-default btn-xs btn-sort"
-							        data-toggle="tooltip" data-placement="top" title="Author"
-							        ng-click="vmDetail.sortBtn.onClick(2)"
-							        ng-class="{active : vmDetail.sortBtn.isActive(2)}">
-								A <i class="glyphicon glyphicon-sort"></i>
-							</button>
-							<button type="button" class="btn btn-default btn-xs btn-sort"
-							        data-toggle="tooltip" data-placement="top" title="Date"
-							        ng-click="vmDetail.sortBtn.onClick(3)"
-							        ng-class="{active : vmDetail.sortBtn.isActive(3)}">
-								D <i class="glyphicon glyphicon-sort"></i>
-							</button>
-
 						</h3>
 					</div>
 				</div>

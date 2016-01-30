@@ -163,7 +163,13 @@
 		vm.filterType = '';
 		vm.sortBtn    = {
 			onClick  : sortBtnOnClick,
-			isActive : sortBtnIsActive
+			isActive : sortBtnIsActive,
+			names    : [
+				{ full : 'Rating', short : 'R' },
+				{ full : 'Comment', short : 'C' },
+				{ full : 'Author', short : 'A' },
+				{ full : 'Date', short : 'D' },
+			]
 		};
 
 		var sortBtn = {
@@ -190,8 +196,8 @@
 
 		function activate() {
 			vmExchange.registerVM( vm );
-			setTimeout( function () {angular.element('[data-toggle="tooltip"]').tooltip();}, 500);
-			sortBtnOnClick(3);
+			setTimeout( function () {angular.element( '[data-toggle="tooltip"]' ).tooltip();}, 500 );
+			sortBtnOnClick( 3 );
 
 			return menuService.getDishes()
 				.get( { id : $stateParams.id } ).$promise
