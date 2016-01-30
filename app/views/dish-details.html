@@ -35,19 +35,30 @@
 					<div class="col-xs-4">
 						<h3 class="text-right">
 							<small>Sort by:</small>
-							<input type="text" id="form-filters" list="filters"
-							       class="form-control input-sm" ng-model="filterType"/>
-
-							<datalist id="filters">
-								<option value="rating">
-								<option value="-rating">
-								<option value="comment">
-								<option value="-comment">
-								<option value="author">
-								<option value="-author">
-								<option value="date">
-								<option value="-date">
-							</datalist>
+							<button type="button" class="btn btn-default btn-xs btn-sort"
+							        data-toggle="tooltip" data-placement="top" title="Rating"
+							        ng-click="vmDetail.sortBtn.onClick(0)"
+							        ng-class="{active : vmDetail.sortBtn.isActive(0)}">
+								R <i class="glyphicon glyphicon-sort"></i>
+							</button>
+							<button type="button" class="btn btn-default btn-xs btn-sort"
+							        data-toggle="tooltip" data-placement="top" title="Comment"
+							        ng-click="vmDetail.sortBtn.onClick(1)"
+							        ng-class="{active : vmDetail.sortBtn.isActive(1)}">
+								C <i class="glyphicon glyphicon-sort"></i>
+							</button>
+							<button type="button" class="btn btn-default btn-xs btn-sort"
+							        data-toggle="tooltip" data-placement="top" title="Author"
+							        ng-click="vmDetail.sortBtn.onClick(2)"
+							        ng-class="{active : vmDetail.sortBtn.isActive(2)}">
+								A <i class="glyphicon glyphicon-sort"></i>
+							</button>
+							<button type="button" class="btn btn-default btn-xs btn-sort"
+							        data-toggle="tooltip" data-placement="top" title="Date"
+							        ng-click="vmDetail.sortBtn.onClick(3)"
+							        ng-class="{active : vmDetail.sortBtn.isActive(3)}">
+								D <i class="glyphicon glyphicon-sort"></i>
+							</button>
 
 						</h3>
 					</div>
@@ -55,7 +66,7 @@
 
 				<div class="row">
 					<div class="col-xs-12">
-						<blockquote ng-repeat="comment in vmDetail.dish.comments | orderBy:filterType">
+						<blockquote ng-repeat="comment in vmDetail.dish.comments | orderBy:vmDetail.filterType">
 							<p>{{comment.rating}} Stars</p>
 
 							<p>{{comment.comment}}</p>

@@ -157,15 +157,41 @@
 	function DishDetailController( menuService, $stateParams, vmExchange ) {
 		var vm = this;
 		
-		vm.dish     = {};
-		vm.message  = 'Loading ...';
-		vm.isLoaded = false;
+		vm.dish       = {};
+		vm.message    = 'Loading ...';
+		vm.isLoaded   = false;
+		vm.filterType = '';
+		vm.sortBtn    = {
+			onClick  : sortBtnOnClick,
+			isActive : sortBtnIsActive
+		};
+
+		var sortBtn = {
+			states  : [
+				['rating', '-rating'],
+				['comment', '-comment'],
+				['author', '-author'],
+				['date', '-date'],
+			],
+			current : [0, 0, 0, 0],
+		};
 
 		activate();
 
 
+		function sortBtnOnClick( btnId ) {
+			sortBtn.current[btnId] = +!sortBtn.current[btnId];
+
+			var stateId   = sortBtn.current[btnId];
+			vm.filterType = sortBtn.states[btnId][stateId];
+		}
+
+		function sortBtnIsActive( btnId ) { return ~sortBtn.states[btnId].indexOf( vm.filterType ); }
+
 		function activate() {
 			vmExchange.registerVM( vm );
+			setTimeout( function () {angular.element('[data-toggle="tooltip"]').tooltip();}, 500);
+			sortBtnOnClick(3);
 
 			return menuService.getDishes()
 				.get( { id : $stateParams.id } ).$promise
