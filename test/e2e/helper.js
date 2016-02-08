@@ -9,7 +9,8 @@
 (function () {
 	var _       = require( 'underscore' ),
 
-	    getPage = {
+	    getPage =
+	    {
 		    home        : '#/',
 		    aboutUs     : '#/about-us',
 		    contactUs   : '#/contact-us',

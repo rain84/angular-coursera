@@ -2730,3 +2730,7 @@ body {
     width: 100%;
     position: absolute;
     top: calc(50% - 20px / 2); }
+
+.btn-sort {
+  background-image: none;
+  margin-right: 4px; }
